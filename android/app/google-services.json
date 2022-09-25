@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "401238710403",
+    "project_id": "amenityfinal",
+    "storage_bucket": "amenityfinal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401238710403:android:1358c2048985eccc1ba3b6",
+        "android_client_info": {
+          "package_name": "com.example.amenityfinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401238710403-vctta0i1ag561nu7tg1499jq8i30sssf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4FT51gzRbUsqIj73HCA7L49UG36jdTRY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401238710403-vctta0i1ag561nu7tg1499jq8i30sssf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
