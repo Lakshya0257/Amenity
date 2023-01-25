@@ -1,13 +1,18 @@
+import 'package:amenityfinal/Servitor/login/servitor_login.dart';
+import 'package:amenityfinal/common_refactor/common_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
+import '../../common_refactor/TextButton.dart';
+
 final _firestore = FirebaseFirestore.instance;
 late User loggeduser;
 int touch_transport = 0;
 List<complaint_class_servitor> Complaintwidget_servitor = [];
+List <driver_service_servitor> driver_service=[];
 
 class transportservitor extends StatefulWidget {
   const transportservitor({Key? key}) : super(key: key);
@@ -32,7 +37,7 @@ class _transportservitorState extends State<transportservitor> {
     const book(),
     const chat(),
     const notice(),
-    const profile()
+    Static_Profile()
   ];
   @override
   Widget build(BuildContext context) {
@@ -123,185 +128,419 @@ class _bookState extends State<book> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Text(
-          'Bookings',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 2),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        const SizedBox(
-          width: 300,
-          height: 10,
-          child: Divider(
-            color: Colors.grey,
-            thickness: 2,
+      child: Column(
+        children: [
+          Text(
+            'Bookings',
+            style: TextStyle(
+                color: Colors.white, fontSize: 40, fontWeight: FontWeight.w300),
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Column(
-          children: [
-            SizedBox(
-              width: double.maxFinite,
-              height: 130,
-              child: Container(
-                margin: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: const <Widget>[
-                            CircleAvatar(
+          SizedBox(
+            height: 20,
+          ),
+          button(
+            navigator_class: driver(),
+            width: MediaQuery.of(context).size.width * .90,
+            height: 100,
+            border: 30,
+            color: Colors.blueAccent,
+            child: Center(child: Text('Add New',style: TextStyle(color: Colors.white,fontSize: 25,letterSpacing: 2,fontWeight: FontWeight.w500),)),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height*.5,
+            width: double.maxFinite,
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('Transport_service').snapshots(),
+              builder: (context, snapshot) {
+                driver_service.clear();
+                int indee=0;
+                if (snapshot.hasData) {
+                  final notice = snapshot.data!.docs;
+                  for (var message in notice) {
+                    indee++;
+                    final name = message['username'];
+                    final mobile = message['mobile'];
+                    final fare = message['fare'];
+                    final vehiclenum = message['vehicle_number'];
+                    final vehicle = message['vehicle'];
+                    driver_service.add(driver_service_servitor(name,mobile,fare,vehicle,vehiclenum));
+                  }
+                }
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: indee,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                      child: Container(
+                        width: double.maxFinite,
+                        height: 250,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                          const BorderRadius.all(Radius.circular(30)),
+                          border: Border.all(
+                              color: Colors.blueAccent, width: 4),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const CircleAvatar(
                               backgroundImage: NetworkImage(
-                                  'https://image.shutterstock.com/image-vector/contact-circle-neon-style-icon-260nw-1607646820.jpg'),
+                                  'https://www.crushpixel.com/big-static18/preview4/avatar-profile-pink-neon-icon-2920285.jpg'),
                             ),
-                            SizedBox(
-                              width: 9,
+                            const SizedBox(
+                              height: 9,
                             ),
-                            Text(
-                              'user_1709',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Nme of Driver: ',style: TextStyle(
+                                    color: Colors.blueAccent, fontSize: 15,fontWeight: FontWeight.bold),),
+                                Text(
+                                  driver_service[index].name,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                ),
+                              ],
                             ),
+                            const SizedBox(
+                              height: 9,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Email/Phone number: ',
+                                  style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  driver_service[index].mobile,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  softWrap: false,
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15),
+                                )
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Fare charges/Km: ',
+                                  style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  driver_service[index].fare,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  softWrap: false,
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15),
+                                )
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Vehicle: ',
+                                  style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  driver_service[index].vehicle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  softWrap: false,
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15),
+                                )
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Vehicle number: ',
+                                  style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  driver_service[index].vehiclenumber,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  softWrap: false,
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15),
+                                )
+                              ],
+                            ),
+                            TextButton(
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance.runTransaction(
+                                          (Transaction
+                                      myTransaction) async {
+                                        await myTransaction.delete(snapshot
+                                            .data!.docs[index].reference);
+                                      });
+                                  driver_service.removeAt(index);
+                                },
+                                child: Container(
+                                    width: 60,
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        color: Colors.redAccent),
+                                    child: const Center(
+                                        child: Text(
+                                          'Delete',
+                                          style: TextStyle(
+                                              color: Colors.white),
+                                        )))),
                           ],
                         ),
-                        const SizedBox(
-                          height: 9,
-                        ),
-                        const Text(
-                          'Departure Date: 14/09',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        const Text(
-                          'Departure Timing: 10:00',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Text(
-                          'Remarks: ',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        Container(
-                          width: 90,
-                          height: 40,
-                          decoration: const BoxDecoration(
-                              color: Colors.blueAccent,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Details',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
-                              )),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
-            SizedBox(
-              width: double.maxFinite,
-              height: 130,
-              child: Container(
-                margin: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: const <Widget>[
-                            CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  'https://us.123rf.com/450wm/alexvolot/alexvolot1912/alexvolot191200028/135452098-portrait-of-an-anonymous-man-in-a-black-hoodie-hiding-his-face-behind-a-scary-neon-mask-studio-shot-.jpg?ver=6'),
-                            ),
-                            SizedBox(
-                              width: 9,
-                            ),
-                            Text(
-                              'user_1899',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 9,
-                        ),
-                        const Text(
-                          'Departure Date: 12/09',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        const Text(
-                          'Departure Timing: 9:00',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Text(
-                          'Remarks: ',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        Container(
-                          width: 90,
-                          height: 40,
-                          decoration: const BoxDecoration(
-                              color: Colors.blueAccent,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Details',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
-                              )),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ));
+          )
+        ],
+      ),
+    );
   }
 }
+
+class driver_service_servitor{
+  late String name;
+  late String mobile;
+  late String fare;
+  late String vehicle;
+  late String vehiclenumber;
+  driver_service_servitor(String username,String phone, String far, String vehic, String vehinum){
+    name=username;
+    mobile=phone;
+    fare=far;
+    vehicle=vehic;
+    vehiclenumber=vehinum;
+  }
+}
+
+class driver extends StatefulWidget {
+  const driver({Key? key}) : super(key: key);
+
+  @override
+  State<driver> createState() => _driverState();
+}
+
+class _driverState extends State<driver> {
+  TextEditingController username=TextEditingController();
+  TextEditingController mobile=TextEditingController();
+  TextEditingController fare=TextEditingController();
+  TextEditingController vechicle=TextEditingController();
+  TextEditingController Vehiclenumber=TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: Container(
+          width: double.maxFinite,
+          height: double.maxFinite,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(
+                      'https://st.depositphotos.com/1052474/54676/v/600/depositphotos_546768550-stock-illustration-abstract-background-in-paper-cut.jpg'),
+                  fit: BoxFit.cover)),
+          child: SafeArea(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.maxFinite,
+                    height: 60,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: Colors.blueAccent,
+                                size: 30,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 110,
+                  ),
+                  SizedBox(
+                    width: double.maxFinite,
+                    height: 40,
+                    child: Center(
+                        child: Text(
+                          'Add new Transport service.',
+                          style: TextStyle(color: Colors.black, fontSize: 25),
+                        )),
+                  ),
+                  SizedBox(
+                    width: 300,
+                    height: 70,
+                    child: Divider(
+                      thickness: 2,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 370,
+                    height: 50,
+                    child: TextFormField(
+                      controller: username,
+                      decoration: InputDecoration(
+                          labelText: 'Name of Driver',
+                          alignLabelWithHint: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(20)))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 370,
+                    height: 50,
+                    child: TextFormField(
+                      controller: mobile,
+                      decoration: InputDecoration(
+                          labelText: 'Email/Mobile Number',
+                          alignLabelWithHint: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(20)))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 370,
+                    height: 50,
+                    child: TextFormField(
+                      controller: fare,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          labelText: 'Fare charges/km',
+                          alignLabelWithHint: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(20)))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 370,
+                    height: 50,
+                    child: TextFormField(
+                      controller: vechicle,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          labelText: 'Vehicle',
+                          alignLabelWithHint: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(20)))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 370,
+                    height: 50,
+                    child: TextFormField(
+                      controller: Vehiclenumber,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          labelText: 'Vehicle number',
+                          alignLabelWithHint: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(20)))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 150,
+                    height: 60,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          color: Colors.orangeAccent),
+                      child: TextButton(
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                        ),
+                        onPressed: () {
+                          FirebaseFirestore.instance
+                              .collection('Transport_service')
+                              .doc(Timestamp.now().toString())
+                              .set({
+                            'username': username.text,
+                            'mobile': mobile.text,
+                            'fare': fare.text,
+                            'vehicle': vechicle.text,
+                            'vehicle_number': Vehiclenumber.text,
+                          });
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
+}
+
+
 
 class chat extends StatefulWidget {
   const chat({Key? key}) : super(key: key);
@@ -341,141 +580,138 @@ class _chatState extends State<chat> {
         Container(
           width: double.maxFinite,
           height: 300,
-          child: StreamBuilder <QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('transport_complaint').snapshots(),
-              builder: (context,snap){
-                if (snap.hasData) {
-                  int indee=0;
-                  final complaintss = snap.data!.docs;
-                  for (var complaints in complaintss) {
-                    indee++;
-                    final sender = complaints['sender'];
-                    final complaintname = complaints['name'];
-                    final complaintnumber = complaints['number'];
-                    final complaintproblem = complaints['problem'];
-                    final complaintvehicle = complaints['vehicle'];
-                    Complaintwidget_servitor.add(complaint_class_servitor(
-                        complaintname,
-                        complaintnumber,
-                        complaintproblem,
-                        complaintvehicle,
-                        sender));
-                    print(Complaintwidget_servitor[indee].prblm);
-
-                  }
-                  return ListView.builder(
-                      itemCount: indee,
-                      itemBuilder: (BuildContext context, int index) {
-                        print(Complaintwidget_servitor[index].prblm);
-                        return SizedBox(
-                          width: double.maxFinite,
-                          height: 130,
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              color: Colors.white70,
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Text(
-                                      'Problem:  ',
-                                      style: TextStyle(color: Colors.blueAccent),
-                                    ),
-                                    Text(Complaintwidget_servitor[index].prblm)
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      children: <Widget>[
-                                        const CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              'https://image.shutterstock.com/image-vector/contact-circle-neon-style-icon-260nw-1607646820.jpg'),
-                                        ),
-                                        const SizedBox(
-                                          width: 9,
-                                        ),
-                                        Text(
-                                          Complaintwidget_servitor[index]
-                                              .sends
-                                              .toString(),
-                                          style: const TextStyle(
-                                              color: Colors.black, fontSize: 15),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width: 90,
-                                          height: 40,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.blueAccent,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          child: TextButton(
-                                              onPressed: () async {
-                                                await FirebaseFirestore.instance
-                                                    .runTransaction((Transaction
-                                                myTransaction) async {
-                                                  myTransaction.delete(snap
-                                                      .data!
-                                                      .docs[index]
-                                                      .reference);
-                                                });
-                                              },
-                                              child: const Text(
-                                                'Solve',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              )),
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Container(
-                                          width: 90,
-                                          height: 40,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.blueAccent,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          child: TextButton(
-                                              onPressed: () {
-                                                touch_transport = index;
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                        const display_complaints_transport()));
-                                              },
-                                              child: const Text(
-                                                'Details',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              )),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('transport_complaint')
+                  .snapshots(),
+              builder: (context, snap) {
+                Complaintwidget_servitor.clear();
+                if (!snap.hasData) {
+                  return CircularProgressIndicator();
+                }
+                int indee=0;
+                List complaintss = snap.data!.docs;
+                for (var complaints in complaintss) {
+                  indee++;
+                  final sender = complaints['sender'];
+                  final complaintname = complaints['name'];
+                  final complaintnumber = complaints['number'];
+                  final complaintproblem = complaints['problem'];
+                  final complaintvehicle = complaints['vehicle'];
+                  Complaintwidget_servitor.add(complaint_class_servitor(
+                      complaintname,
+                      complaintnumber,
+                      complaintproblem,
+                      complaintvehicle,
+                      sender));
+                }
+                return ListView.builder(
+                    itemCount: indee,
+                    itemBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        width: double.maxFinite,
+                        height: 130,
+                        child: Container(
+                          margin: const EdgeInsets.all(10),
+                          decoration: const BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
-                        );
-                      });
-                }
-                else{
-                  return Text('nothing');
-                }
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Problem:  ',
+                                    style: TextStyle(color: Colors.blueAccent),
+                                  ),
+                                  Text(Complaintwidget_servitor[index].prblm)
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Row(
+                                    children: <Widget>[
+                                      const CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            'https://image.shutterstock.com/image-vector/contact-circle-neon-style-icon-260nw-1607646820.jpg'),
+                                      ),
+                                      const SizedBox(
+                                        width: 9,
+                                      ),
+                                      Text(
+                                        Complaintwidget_servitor[index]
+                                            .sends
+                                            .toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black, fontSize: 15),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 90,
+                                        height: 40,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.blueAccent,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: TextButton(
+                                            onPressed: () async {
+                                              await FirebaseFirestore.instance
+                                                  .runTransaction((Transaction
+                                                      myTransaction) async {
+                                                myTransaction.delete(snap.data!
+                                                    .docs[index].reference);
+                                              });
+                                              Complaintwidget_servitor.clear();
+                                            },
+                                            child: const Text(
+                                              'Solve',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20),
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Container(
+                                        width: 90,
+                                        height: 40,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.blueAccent,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: TextButton(
+                                            onPressed: () {
+                                              touch_transport = index;
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const display_complaints_transport()));
+                                            },
+                                            child: const Text(
+                                              'Details',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20),
+                                            )),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
               }),
         ),
       ],
@@ -929,6 +1165,7 @@ class _noticeState extends State<notice> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: _firestore.collection('notice').snapshots(),
                   builder: (context, snapshot) {
+                    notices.clear();
                     int indee = 0;
                     if (snapshot.hasData) {
                       final notice = snapshot.data!.docs;
@@ -1254,190 +1491,31 @@ class home extends StatefulWidget {
 class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Welcome!',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 2),
+        SizedBox(
+          height: 150,
         ),
-        const SizedBox(
-          height: 60,
-        ),
-        const Image(
-            image: NetworkImage(
-                'https://cdn.pixabay.com/photo/2014/04/02/16/18/bus-306857__340.png',
-                scale: 3)),
-        const SizedBox(
-          height: 60,
-        ),
-        const SizedBox(
-          width: 300,
-          height: 20,
-          child: Divider(
-            color: Colors.grey,
-            thickness: 2,
-          ),
-        ),
-        const SizedBox(
+        Text('Welcome',
+            style: TextStyle(
+                color: Colors.blueAccent, fontSize: 70, fontFamily: 'style')),
+        SizedBox(
           height: 10,
         ),
-        const Text(
-          'Recent Bookings',
-          style: TextStyle(color: Colors.white, fontSize: 30),
-        ),
-        const SizedBox(
+        Text(username, style: TextStyle(color: Colors.white, fontSize: 40)),
+        SizedBox(
           height: 30,
         ),
-        SizedBox(
-          width: double.infinity,
-          height: 180,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              const SizedBox(width: 20),
-              Container(
-                width: 350,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  border: Border.all(color: Colors.blueAccent, width: 4),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://www.crushpixel.com/big-static18/preview4/avatar-profile-pink-neon-icon-2920285.jpg'),
-                        ),
-                        SizedBox(
-                          height: 9,
-                        ),
-                        Text(
-                          'user_1693',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        SizedBox(
-                          height: 9,
-                        ),
-                        Text(
-                          'Departure Date: 16/09',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        Text(
-                          'Departure Timing: 16:00',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Passengers: 1',
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.blueAccent,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Remarks: ',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 20),
-              Container(
-                width: 350,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  border: Border.all(color: Colors.blueAccent, width: 4),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://image.shutterstock.com/image-vector/contact-circle-neon-style-icon-260nw-1607646820.jpg'),
-                        ),
-                        SizedBox(
-                          height: 9,
-                        ),
-                        Text(
-                          'user_1709',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        SizedBox(
-                          height: 9,
-                        ),
-                        Text(
-                          'Departure Date: 14/09',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        Text(
-                          'Departure Timing: 10:00',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Passengers: 4',
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.blueAccent,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Remarks: ',
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 20),
-            ],
+        Container(
+          margin: EdgeInsets.all(0),
+          child: Image(
+            image: NetworkImage(
+                'https://cdn.pixabay.com/photo/2014/04/02/16/18/bus-306857__340.png',scale: 2),
           ),
         )
       ],
-    ));
+    );
   }
 }
 
-class profile extends StatefulWidget {
-  const profile({Key? key}) : super(key: key);
-
-  @override
-  State<profile> createState() => _profileState();
-}
-
-class _profileState extends State<profile> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}

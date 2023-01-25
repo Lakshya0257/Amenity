@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../../Servitor/pages/transportservitor.dart';
 
 class booking_transport_section extends StatefulWidget {
   const booking_transport_section({Key? key}) : super(key: key);
@@ -13,180 +16,199 @@ class _booking_transport_sectionState extends State<booking_transport_section> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text('Bookings',style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.w500,letterSpacing: 2),),
-              const SizedBox(
-                height: 10,
-              ),
-              const SizedBox(
-                width: 300,
-                height: 10,
-                child: Divider(
-                  color: Colors.grey,
-                  thickness: 2,
+              Container(
+                width: double.maxFinite,
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(width: 5,),
+                        IconButton(icon: const Icon(Icons.arrow_back_sharp,color: Colors.white,),onPressed: (){Navigator.of(context).pop();}),
+                      ],
+                    ),
+                    const Text('Bookings',style: TextStyle(fontSize: 30,color: Colors.white),),
+                    Row(
+                      children: const [
+                        CircleAvatar(backgroundImage: NetworkImage('https://st2.depositphotos.com/50337402/47092/v/380/depositphotos_470923054-stock-illustration-adult-man-avatar-short-curly.jpg?forcejpeg=true'),),
+                        SizedBox(width: 20,),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 20,
+              SizedBox(height: 60,),
+              SizedBox(
+                height: 200,
+                child: Image(image: NetworkImage('https://www.osiztechnologies.com/asset/images/inner-pages/transportation_logistics/why-osiz-for-transportation-and-logistics-service.png'),),
               ),
-              Column(
-                children: [
-                  SizedBox(
-                    width: double.maxFinite,
-                    height: 150,
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(color: Colors.white70,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: const <Widget>[
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://image.shutterstock.com/image-vector/contact-circle-neon-style-icon-260nw-1607646820.jpg'),
-                                  ),
-                                  SizedBox(width: 9,),
-                                  Text('driver_1709',style: TextStyle(color: Colors.black,fontSize: 15),),
-                                ],
-                              ),
-                              const SizedBox(height: 9,),
-                              const Text('Vehicle Number: HR23 4567',style: TextStyle(color: Colors.black,fontSize: 15),),
-                              const Text('Vehicle Type: Charted Bus',style: TextStyle(color: Colors.black,fontSize: 15),),
-                              const Text('Fair Charges: 5 Rs per Km',style: TextStyle(color: Colors.black,fontSize: 15),),
-
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Text('Remarks: ',style: TextStyle(color: Colors.black,fontSize: 15),),
-                              Container(
-                                width: 90,
-                                height: 50,
-                                decoration: const BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.all(Radius.circular(10))),
-                                child: TextButton(onPressed: (){},
-                                    child: const Text('Details',style: TextStyle(color: Colors.white,fontSize: 20),)
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: double.maxFinite,
-                    height: 150,
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(color: Colors.white70,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: const <Widget>[
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://image.shutterstock.com/image-vector/contact-circle-neon-style-icon-260nw-1607646820.jpg'),
-                                  ),
-                                  SizedBox(width: 9,),
-                                  Text('driver_1709',style: TextStyle(color: Colors.black,fontSize: 15),),
-                                ],
-                              ),
-                              const SizedBox(height: 9,),
-                              const Text('Vehicle Number: HR23 4567',style: TextStyle(color: Colors.black,fontSize: 15),),
-                              const Text('Vehicle Type: Charted Bus',style: TextStyle(color: Colors.black,fontSize: 15),),
-                              const Text('Fair Charges: 5 Rs per Km',style: TextStyle(color: Colors.black,fontSize: 15),),
-
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Text('Remarks: ',style: TextStyle(color: Colors.black,fontSize: 15),),
-                              Container(
-                                width: 90,
-                                height: 50,
-                                decoration: const BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.all(Radius.circular(10))),
-                                child: TextButton(onPressed: (){},
-                                    child: const Text('Details',style: TextStyle(color: Colors.white,fontSize: 20),)
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: double.maxFinite,
-                    height: 150,
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(color: Colors.white70,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: const <Widget>[
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://image.shutterstock.com/image-vector/contact-circle-neon-style-icon-260nw-1607646820.jpg'),
-                                  ),
-                                  SizedBox(width: 9,),
-                                  Text('driver_1709',style: TextStyle(color: Colors.black,fontSize: 15),),
-                                ],
-                              ),
-                              const SizedBox(height: 9,),
-                              const Text('Vehicle Number: HR23 4567',style: TextStyle(color: Colors.black,fontSize: 15),),
-                              const Text('Vehicle Type: Charted Bus',style: TextStyle(color: Colors.black,fontSize: 15),),
-                              const Text('Fair Charges: 5 Rs per Km',style: TextStyle(color: Colors.black,fontSize: 15),),
-
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Text('Remarks: ',style: TextStyle(color: Colors.black,fontSize: 15),),
-                              Container(
-                                width: 90,
-                                height: 50,
-                                decoration: const BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.all(Radius.circular(10))),
-                                child: TextButton(onPressed: (){},
-                                    child: const Text('Details',style: TextStyle(color: Colors.white,fontSize: 20),)
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+              SizedBox(
+                height: 40,
               ),
-
-
-
+              SizedBox(
+                height: MediaQuery.of(context).size.height*.5,
+                width: double.maxFinite,
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('Transport_service').snapshots(),
+                  builder: (context, snapshot) {
+                    driver_service.clear();
+                    int indee=0;
+                    if (snapshot.hasData) {
+                      final notice = snapshot.data!.docs;
+                      for (var message in notice) {
+                        indee++;
+                        final name = message['username'];
+                        final mobile = message['mobile'];
+                        final fare = message['fare'];
+                        final vehiclenum = message['vehicle_number'];
+                        final vehicle = message['vehicle'];
+                        driver_service.add(driver_service_servitor(name,mobile,fare,vehicle,vehiclenum));
+                      }
+                    }
+                    return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: indee,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                          child: Container(
+                            width: double.maxFinite,
+                            height: 250,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(30)),
+                              border: Border.all(
+                                  color: Colors.blueAccent, width: 4),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      'https://www.crushpixel.com/big-static18/preview4/avatar-profile-pink-neon-icon-2920285.jpg'),
+                                ),
+                                const SizedBox(
+                                  height: 9,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Nme of Driver: ',style: TextStyle(
+                                        color: Colors.blueAccent, fontSize: 15,fontWeight: FontWeight.bold),),
+                                    Text(
+                                      driver_service[index].name,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 9,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'Email/Phone number: ',
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      driver_service[index].mobile,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.fade,
+                                      softWrap: false,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'Fare charges/Km: ',
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      driver_service[index].fare,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.fade,
+                                      softWrap: false,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'Vehicle: ',
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      driver_service[index].vehicle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.fade,
+                                      softWrap: false,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'Vehicle number: ',
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      driver_service[index].vehiclenumber,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.fade,
+                                      softWrap: false,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              )
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

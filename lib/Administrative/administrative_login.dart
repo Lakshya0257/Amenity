@@ -28,8 +28,8 @@ class _administrativeState extends State<administrative> {
             children: [
               SizedBox(
                   width: double.maxFinite,
-                  height: 30,
-                  child: Center(child: Text('Welcome Back!',style: TextStyle(fontSize: 30,fontWeight: FontWeight.w500,letterSpacing: 2,color: Colors.white),))),
+                  height: 70,
+                  child: Center(child: Text('Welcome Back!',style: TextStyle(fontSize: 40,fontFamily: 'style',fontWeight: FontWeight.w500,letterSpacing: 2,color: Colors.white),))),
               SizedBox(
                   width: double.maxFinite,
                   height: 70,
@@ -170,8 +170,8 @@ class _adminisState extends State<adminis> {
                   ),
                   SizedBox(
                       width: double.maxFinite,
-                      height: 30,
-                      child: Center(child: Text('Create a new servitor',style: TextStyle(fontSize: 30,fontWeight: FontWeight.w500,letterSpacing: 2,color: Colors.white),))),
+                      height: 70,
+                      child: Center(child: Text('Create a new servitor',style: TextStyle(fontSize: 40,fontFamily: 'style',fontWeight: FontWeight.w500,letterSpacing: 2,color: Colors.white),))),
                   SizedBox(
                       width: double.maxFinite,
                       height: 70,
@@ -224,24 +224,6 @@ class _adminisState extends State<adminis> {
                             dropdownvalue=newValue!;
                           });
                         },
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 340,
-                    height: 60,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),color: Colors.white24),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                            labelText: 'Phone number',
-                            labelStyle: TextStyle(color: Colors.grey,letterSpacing: .9)
-                        ),
                       ),
                     ),
                   ),

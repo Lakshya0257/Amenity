@@ -1,14 +1,16 @@
+
 import 'package:amenityfinal/common_refactor/circularprofile.dart';
+import 'package:amenityfinal/common_refactor/common_profile.dart';
+import 'package:amenityfinal/common_refactor/profile_complaint.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
+import '../login_and_signup/complainant_login.dart';
 import 'general.dart';
 import 'medicals.dart';
 import 'transportation.dart';
@@ -21,26 +23,6 @@ class drawers extends StatefulWidget {
 }
 
 class _drawersState extends State<drawers> {
-  final _auth = FirebaseAuth.instance;
-  late User loggeruser;
-
-  @override
-  void initState() {
-    super.initState();
-    getcurrentuser();
-  }
-
-  void getcurrentuser() async {
-    try {
-      final user = await _auth.currentUser;
-      if (user != null) {
-        loggeruser = user;
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
@@ -85,7 +67,7 @@ class _MenuState extends State<Menu> {
               height: 70,
               padding: EdgeInsets.fromLTRB(40, 0, 10, 15),
               child: Text(
-                'User Name',
+                user,
                 style: TextStyle(
                     color: Colors.white, fontSize: 25, letterSpacing: 2),
               ),
@@ -94,142 +76,90 @@ class _MenuState extends State<Menu> {
               thickness: 1,
               color: Colors.white,
             ),
-            Container(
-              width: double.infinity,
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Icon(
-                    Icons.notifications,
-                    color: Colors.blueAccent,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Notifications',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  )
-                ],
+            TextButton(
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>about_us()));
+              },
+              child: SizedBox(
+                width: double.infinity,
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(Icons.account_box_outlined,color: Colors.blueAccent,),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text('Creators',style: TextStyle(color: Colors.white,fontSize: 20),)
+                  ],
+                ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Icon(
-                    Icons.wallet,
-                    color: Colors.blueAccent,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Payment',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  )
-                ],
+            TextButton(
+              onPressed: (){},
+              child: SizedBox(
+                width: double.infinity,
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(Icons.star_border,color: Colors.blueAccent,),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text('Rate Us',style: TextStyle(color: Colors.white,fontSize: 20),)
+                  ],
+                ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Icon(
-                    Icons.question_mark_rounded,
-                    color: Colors.blueAccent,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Help',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  )
-                ],
+            TextButton(
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Static_Profile_complaint()));
+              },
+              child: SizedBox(
+                width: double.infinity,
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(Icons.people_alt_rounded,color: Colors.blueAccent,),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text('Profile',style: TextStyle(color: Colors.white,fontSize: 20),)
+                  ],
+                ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Icon(
-                    Icons.info_outline_rounded,
-                    color: Colors.blueAccent,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'About Us',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Icon(
-                    Icons.settings,
-                    color: Colors.blueAccent,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Settings',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Icon(
-                    Icons.star_border,
-                    color: Colors.blueAccent,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Rate Us',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  )
-                ],
+            TextButton(
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+              child: SizedBox(
+                width: double.infinity,
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(Icons.logout,color: Colors.blueAccent,),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text('Log Out',style: TextStyle(color: Colors.white,fontSize: 20),)
+                  ],
+                ),
               ),
             ),
           ],
@@ -267,7 +197,7 @@ class _testState extends State<test> {
         ),
       ],
       grabbing: GrabbingWidget(),
-      grabbingHeight: MediaQuery.of(context).size.height*.095,
+      grabbingHeight: MediaQuery.of(context).size.height*.084,
       sheetAbove: SnappingSheetContent(child: chatting()),
     );
   }

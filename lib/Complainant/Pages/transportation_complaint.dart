@@ -81,34 +81,37 @@ class _complaint_transport_sectionState extends State<complaint_transport_sectio
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     const SizedBox(width: double.maxFinite),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const SizedBox(width: 70,),
-                            CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 25,
-                              child: IconButton(icon: const Icon(Icons.call),onPressed: (){},),
-                            ),
-                          ],
-                        ),
-                        const CircleAvatar(
-                          backgroundImage: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR59-m3AT7SI3Qth0e_hD22i0P0k4YukBJvsptTMlvAat7wqJTag2RH7aFB1upp6vVUbU8&usqp=CAU'),
-                          radius: 35,
-                        ),
-                        Row(
-                          children: const [
-                            CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 25,
-                              child: Icon(Icons.message),
-                            ),
-                            SizedBox(width: 70,)
-                          ],
-                        ),
-                      ],
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const SizedBox(width: 70,),
+                              CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 25,
+                                child: IconButton(icon: const Icon(Icons.call),onPressed: (){},),
+                              ),
+                            ],
+                          ),
+                          const CircleAvatar(
+                            backgroundImage: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR59-m3AT7SI3Qth0e_hD22i0P0k4YukBJvsptTMlvAat7wqJTag2RH7aFB1upp6vVUbU8&usqp=CAU'),
+                            radius: 35,
+                          ),
+                          Row(
+                            children: const [
+                              CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 25,
+                                child: Icon(Icons.message),
+                              ),
+                              SizedBox(width: 70,)
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     const Text('Name of Complainant',style: TextStyle(color: Colors.white,fontSize: 20),)
                   ],
@@ -117,164 +120,167 @@ class _complaint_transport_sectionState extends State<complaint_transport_sectio
               Expanded(flex: 10,child: Container(
                 margin: const EdgeInsets.all(0),
                 decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),color: Colors.white),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 15,),
-                    const Text('Complaint Booking',style: TextStyle(color: Colors.black,fontSize: 25),),
-                    const SizedBox(height: 15,),
-                    Container(
-                      height: 90,
-                      width: 340,
-                      decoration: const BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: FlatButton(
-                        onPressed: (){
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 15,),
+                      const Text('Complaint Booking',style: TextStyle(color: Colors.black,fontSize: 25),),
+                      const SizedBox(height: 15,),
+                      Container(
+                        height: 90,
+                        width: 340,
+                        decoration: const BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.all(Radius.circular(20))),
+                        child: FlatButton(
+                          onPressed: (){
 
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Newcomplaint_transport_section()));
-                        },
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Newcomplaint_transport_section()));
+                          },
 
-                        child: const Center(
-                            child: Text('+ Add New', style: TextStyle(fontSize: 24, color: Colors.black,letterSpacing: 1.8, fontWeight: FontWeight.w500),)),
+                          child: const Center(
+                              child: Text('+ Add New', style: TextStyle(fontSize: 24, color: Colors.black,letterSpacing: 1.8, fontWeight: FontWeight.w500),)),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 25,),
-                    Container(
-                      width: double.maxFinite,
-                      height: 269,
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance.collection('transport_complaint').snapshots(),
-                        builder: (context,snapshot){
-                          int indee=0;
-                          if(snapshot.hasData){
-                            final complaint=snapshot.data!.docs;
-                            for(var complaints in complaint){
-                              final sender=complaints['sender'];
-                              if(sender==loggeruser.email.toString()){
-                                indee++;
-                                final complaintname = complaints['name'];
-                                final complaintnumber = complaints['number'];
-                                final complaintproblem = complaints['problem'];
-                                final complaintvehicle = complaints['vehicle'];
-                                Complaintwidget.add(complaint_class(complaintname, complaintnumber, complaintproblem, complaintvehicle));
+                      const SizedBox(height: 25,),
+                      Container(
+                        width: double.maxFinite,
+                        height: 269,
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance.collection('transport_complaint').snapshots(),
+                          builder: (context,snapshot){
+                            int indee=0;
+                            Complaintwidget.clear();
+                            if(snapshot.hasData){
+                              final complaint=snapshot.data!.docs;
+                              for(var complaints in complaint){
+                                final sender=complaints['sender'];
+                                if(sender.toString()==loggeruser.email.toString()){
+                                  indee++;
+                                  final complaintname = complaints['name'];
+                                  final complaintnumber = complaints['number'];
+                                  final complaintproblem = complaints['problem'];
+                                  final complaintvehicle = complaints['vehicle'];
+                                  Complaintwidget.add(complaint_class(complaintname, complaintnumber, complaintproblem, complaintvehicle));
+                                }
                               }
                             }
-                          }
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: indee,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                child: Container(
-                                  width: 350,
-                                  height: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    const BorderRadius.all(Radius.circular(30)),
-                                    border: Border.all(
-                                        color: Colors.black, width: 4),
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: indee,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  child: Container(
+                                    width: 350,
+                                    height: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                      const BorderRadius.all(Radius.circular(30)),
+                                      border: Border.all(
+                                          color: Colors.black, width: 4),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              'https://www.crushpixel.com/big-static18/preview4/avatar-profile-pink-neon-icon-2920285.jpg'),
+                                        ),
+                                        const SizedBox(
+                                          height: 9,
+                                        ),
+                                        Text(
+                                          loggeruser.email.toString(),
+                                          style: const TextStyle(
+                                              color: Colors.black, fontSize: 15),
+                                        ),
+                                        const SizedBox(
+                                          height: 9,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const Text(
+                                              'Problem: ',
+                                              style: TextStyle(
+                                                  color: Colors.blueAccent,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                                width: 200,
+                                                height: 20,
+                                                child: Text(
+                                                  Complaintwidget[index].prblm,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.fade,
+                                                  softWrap: false,
+                                                  style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 15),
+                                                ))
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  touch = index;
+                                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const complaint_transport_display()));
+
+                                                },
+                                                child: Container(
+                                                    width: 60,
+                                                    height: 40,
+                                                    decoration: const BoxDecoration(
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(10)),
+                                                        color: Colors.green),
+                                                    child: const Center(
+                                                        child: Text(
+                                                          'Details',
+                                                          style: TextStyle(
+                                                              color: Colors.white),
+                                                        )))),
+                                            TextButton(
+                                                onPressed: () async{
+                                                  await firestore.runTransaction((Transaction myTransaction) async {
+                                                    myTransaction.delete(snapshot.data!.docs[index].reference);
+                                                  });
+                                                  Complaintwidget.clear();
+
+                                                },
+                                                child: Container(
+                                                    width: 60,
+                                                    height: 40,
+                                                    decoration: const BoxDecoration(
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(10)),
+                                                        color: Colors.redAccent),
+                                                    child: const Center(
+                                                        child: Text(
+                                                          'Delete',
+                                                          style: TextStyle(
+                                                              color: Colors.white),
+                                                        )))),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            'https://www.crushpixel.com/big-static18/preview4/avatar-profile-pink-neon-icon-2920285.jpg'),
-                                      ),
-                                      const SizedBox(
-                                        height: 9,
-                                      ),
-                                      Text(
-                                        loggeruser.email.toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 15),
-                                      ),
-                                      const SizedBox(
-                                        height: 9,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Text(
-                                            'Problem: ',
-                                            style: TextStyle(
-                                                color: Colors.blueAccent,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                              width: 200,
-                                              height: 20,
-                                              child: Text(
-                                                Complaintwidget[index].prblm,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.fade,
-                                                softWrap: false,
-                                                style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 15),
-                                              ))
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          TextButton(
-                                              onPressed: () {
-                                                touch = index;
-                                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const complaint_transport_display()));
+                                );
 
-                                              },
-                                              child: Container(
-                                                  width: 60,
-                                                  height: 40,
-                                                  decoration: const BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                      color: Colors.green),
-                                                  child: const Center(
-                                                      child: Text(
-                                                        'Details',
-                                                        style: TextStyle(
-                                                            color: Colors.white),
-                                                      )))),
-                                          TextButton(
-                                              onPressed: () async{
-                                                await firestore.runTransaction((Transaction myTransaction) async {
-                                                  myTransaction.delete(snapshot.data!.docs[index].reference);
-                                                });
-                                                Complaintwidget.clear();
-
-                                              },
-                                              child: Container(
-                                                  width: 60,
-                                                  height: 40,
-                                                  decoration: const BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                      color: Colors.redAccent),
-                                                  child: const Center(
-                                                      child: Text(
-                                                        'Delete',
-                                                        style: TextStyle(
-                                                            color: Colors.white),
-                                                      )))),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-
-                            },
-                          );
-                        },
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    ),
 
 
-                  ],
+                    ],
+                  ),
                 ),
               ),),
             ],

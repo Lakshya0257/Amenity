@@ -10,7 +10,7 @@ import '../../main.dart';
 import '../pages/medical_servitor.dart';
 import 'package:amenityfinal/Servitor/pages/transportservitor.dart';
 
-
+String username='';
 class servitorlogin extends StatefulWidget {
   const servitorlogin({Key? key}) : super(key: key);
 
@@ -19,8 +19,6 @@ class servitorlogin extends StatefulWidget {
 }
 
 class _servitorloginState extends State<servitorlogin> {
-
-  String username='';
   var dropdownvalue = 'Select which service you provide';
   final items = ['Select which service you provide','General( Air Conditioner, Cleaning, Wifi )','Transportation','Medical'];
   late String name;
@@ -60,8 +58,8 @@ class _servitorloginState extends State<servitorlogin> {
                 ),
                 SizedBox(
                     width: double.maxFinite,
-                    height: 30,
-                    child: Center(child: Text('Welcome Back!',style: TextStyle(fontSize: 30,fontWeight: FontWeight.w500,letterSpacing: 2,color: Colors.white),))),
+                    height: 70,
+                    child: Center(child: Text('Welcome Back!',style: TextStyle(fontSize: 50,fontFamily:'style',fontWeight: FontWeight.w500,letterSpacing: 2,color: Colors.white),))),
                 SizedBox(
                     width: double.maxFinite,
                     height: 70,
@@ -185,6 +183,7 @@ class _servitorloginState extends State<servitorlogin> {
 
 
 int y =3;
+late User loggeduser;
 
 
 
@@ -206,7 +205,6 @@ class drawers1 extends StatefulWidget {
 
 class _drawers1State extends State<drawers1> {
   final _auth=FirebaseAuth.instance;
-  late User loggeduser;
   @override
   void initState() {
     // TODO: implement initState

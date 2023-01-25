@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+
+
+List queries_complaint=[];
+List<emergency_medical_complaint> emergency_complaint=[];
 
 class medical extends StatefulWidget {
   const medical({Key? key}) : super(key: key);
@@ -74,8 +78,13 @@ class _medicalState extends State<medical> {
                       SizedBox(
                         width: 20,
                       ),
-                      Text('Emergency', style:
-                      TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'abcd'),
+                      TextButton(
+                        onPressed: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>emergency()));
+                        },
+                        child: Text('Emergency', style:
+                        TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'abcd'),
+                        ),
                       ),
                     ],
                   ),
@@ -103,20 +112,6 @@ class _medicalState extends State<medical> {
                   ),
                   SizedBox(
                     height: 10,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Icon(Icons.medical_information,color: Colors.blueAccent,),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text('Medicine Section', style:
-                      TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'abcd'),
-                      ),
-                    ],
                   ),
 
                 ],
@@ -147,711 +142,430 @@ class _queriesState extends State<queries> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body : SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage('https://imgs.search.brave.com/fiZSCPx8nxa-iojJ5FaVBNywNlK-JWYJgiN3EvTxASM/rs:fit:744:1200:1/g:ce/aHR0cHM6Ly93d3cu/aXRsLmNhdC9wbmdm/aWxlL2JpZy85MC05/MDg5NjBfYmxhY2st/YW5kLXdoaXRlLXdo/YXRzYXBwLXRoZW1l/LXN1bW1pdC5qcGc'
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(border: Border(
-                  left: BorderSide(width: 1, color: Colors.white60),
-                  right: BorderSide(width: 1, color: Colors.white60),
-                  top: BorderSide(width: 1, color: Colors.white60),
-                ),color: Colors.transparent),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 20,
-                    ),
-                    TextButton(
-                        onPressed: (){
-                          Navigator.pop(context);
-                        },
-                        child: Icon(Icons.arrow_back_outlined, size: 32, color: Colors.white,)
-                    ),
-
-
-                  ],
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0)),
-                  border: Border.all(width: 1, color: Colors.white60,),color: Colors.transparent,),
-
-                child: TextButton(
-                  onPressed: (){
-                    //Navigator.of(context).pushNamed('route name')
-                  },
-                  child: Center(child: Text('Public Chat Section', style: TextStyle(fontSize: 21,letterSpacing: 1.5, color: Colors.white,),)),
-                ),
-
-
-              ),
-              Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(width: 1, color: Colors.white60),
-                    right: BorderSide(width: 1, color: Colors.white60),
-                    bottom: BorderSide(width: 1, color: Colors.white60),
-                  ), color: Colors.transparent,
-                ),
-
-                child: Center(
-                  child: Text('Find A Doctor!',style: TextStyle(fontSize: 21, letterSpacing: 1.5, color: Colors.white,),
-                  ),
-                ),
-              ),
-
-              Container(
-                width: double.infinity,
-                height: 535,
-                decoration: BoxDecoration(border: Border(
-                  left: BorderSide(width: 1, color: Colors.white60),
-                  right: BorderSide(width: 1, color: Colors.white60),
-
-                )),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              width: double.maxFinite,
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
                     children: [
-                      Container(
-                        width: double.infinity,
-                        height: 78,
-                        decoration: BoxDecoration(color: Colors.transparent,),
-
-                        child: TextButton(
-                          onPressed: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyProfilePage1()));
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://imgs.search.brave.com/CPlOYC7JMvn10b7ofHRp2EJuxxmiS70NNV2-QCatPpY/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uy/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5I/cE9pcGRzV2JRdUVf/MzFYY3hPSV9BSGFI/YSZwaWQ9QXBp'),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Profile 1',
-                                    style: TextStyle(fontSize: 21, color: Colors.white,),),
-                                ],
-                              ),
-                              Icon(Icons.double_arrow, color: Colors.white,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 78,
-                        decoration: BoxDecoration(color: Colors.transparent,),
-
-                        child: TextButton(
-                          onPressed: (){
-                            //Navigator.of(context).pushNamed('route name')
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://imgs.search.brave.com/CPlOYC7JMvn10b7ofHRp2EJuxxmiS70NNV2-QCatPpY/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uy/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5I/cE9pcGRzV2JRdUVf/MzFYY3hPSV9BSGFI/YSZwaWQ9QXBp'),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Profile 2',
-                                    style: TextStyle(fontSize: 21, color: Colors.white,),),
-                                ],
-                              ),
-                              Icon(Icons.double_arrow, color: Colors.white,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 78,
-                        decoration: BoxDecoration(color: Colors.transparent,),
-
-                        child: TextButton(
-                          onPressed: (){
-                            //Navigator.of(context).pushNamed('route name')
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://imgs.search.brave.com/CPlOYC7JMvn10b7ofHRp2EJuxxmiS70NNV2-QCatPpY/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uy/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5I/cE9pcGRzV2JRdUVf/MzFYY3hPSV9BSGFI/YSZwaWQ9QXBp'),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Profile 3',
-                                    style: TextStyle(fontSize: 21, color: Colors.white,),),
-                                ],
-                              ),
-                              Icon(Icons.double_arrow, color: Colors.white,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 78,
-                        decoration: BoxDecoration(color: Colors.transparent,),
-
-                        child: TextButton(
-                          onPressed: (){
-                            //Navigator.of(context).pushNamed('route name')
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://imgs.search.brave.com/CPlOYC7JMvn10b7ofHRp2EJuxxmiS70NNV2-QCatPpY/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uy/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5I/cE9pcGRzV2JRdUVf/MzFYY3hPSV9BSGFI/YSZwaWQ9QXBp'),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Profile 4',
-                                    style: TextStyle(fontSize: 21, color: Colors.white,),),
-                                ],
-                              ),
-                              Icon(Icons.double_arrow, color: Colors.white,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 78,
-                        decoration: BoxDecoration(color: Colors.transparent,),
-
-                        child: TextButton(
-                          onPressed: (){
-                            //Navigator.of(context).pushNamed('route name')
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://imgs.search.brave.com/CPlOYC7JMvn10b7ofHRp2EJuxxmiS70NNV2-QCatPpY/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uy/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5I/cE9pcGRzV2JRdUVf/MzFYY3hPSV9BSGFI/YSZwaWQ9QXBp'),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Profile 5',
-                                    style: TextStyle(fontSize: 21, color: Colors.white,),),
-                                ],
-                              ),
-                              Icon(Icons.double_arrow, color: Colors.white,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 78,
-                        decoration: BoxDecoration(color: Colors.transparent,),
-
-                        child: TextButton(
-                          onPressed: (){
-                            //Navigator.of(context).pushNamed('route name')
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://imgs.search.brave.com/CPlOYC7JMvn10b7ofHRp2EJuxxmiS70NNV2-QCatPpY/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uy/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5I/cE9pcGRzV2JRdUVf/MzFYY3hPSV9BSGFI/YSZwaWQ9QXBp'),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Profile 7',
-                                    style: TextStyle(fontSize: 21, color: Colors.white,),),
-                                ],
-                              ),
-                              Icon(Icons.double_arrow, color: Colors.white,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 78,
-                        decoration: BoxDecoration(color: Colors.transparent,),
-
-                        child: TextButton(
-                          onPressed: (){
-                            //Navigator.of(context).pushNamed('route name')
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://imgs.search.brave.com/CPlOYC7JMvn10b7ofHRp2EJuxxmiS70NNV2-QCatPpY/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uy/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5I/cE9pcGRzV2JRdUVf/MzFYY3hPSV9BSGFI/YSZwaWQ9QXBp'),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Profile 8',
-                                    style: TextStyle(fontSize: 21, color: Colors.white,),),
-                                ],
-                              ),
-                              Icon(Icons.double_arrow, color: Colors.white,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 78,
-                        decoration: BoxDecoration(color: Colors.transparent,),
-
-                        child: TextButton(
-                          onPressed: (){
-                            //Navigator.of(context).pushNamed('route name')
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://imgs.search.brave.com/CPlOYC7JMvn10b7ofHRp2EJuxxmiS70NNV2-QCatPpY/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uy/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5I/cE9pcGRzV2JRdUVf/MzFYY3hPSV9BSGFI/YSZwaWQ9QXBp'),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Profile 9',
-                                    style: TextStyle(fontSize: 21, color: Colors.white,),),
-                                ],
-                              ),
-                              Icon(Icons.double_arrow, color: Colors.white,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 78,
-                        decoration: BoxDecoration(color: Colors.transparent,),
-
-                        child: TextButton(
-                          onPressed: (){
-                            //Navigator.of(context).pushNamed('route name')
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage('https://imgs.search.brave.com/CPlOYC7JMvn10b7ofHRp2EJuxxmiS70NNV2-QCatPpY/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uy/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5I/cE9pcGRzV2JRdUVf/MzFYY3hPSV9BSGFI/YSZwaWQ9QXBp'),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Profile 10',
-                                    style: TextStyle(fontSize: 21, color: Colors.white,),),
-                                ],
-                              ),
-                              Icon(Icons.double_arrow, color: Colors.white,),
-
-                            ],
-                          ),
-                        ),
-                      ),
+                      const SizedBox(width: 5,),
+                      IconButton(icon: const Icon(Icons.arrow_back_sharp,color: Colors.white,),onPressed: (){Navigator.of(context).pop();}),
                     ],
                   ),
-                ),
+                  const Text('Queries',style: TextStyle(fontSize: 30,color: Colors.white),),
+                  Row(
+                    children: const [
+                      CircleAvatar(backgroundImage: NetworkImage('https://st2.depositphotos.com/50337402/47092/v/380/depositphotos_470923054-stock-illustration-adult-man-avatar-short-curly.jpg?forcejpeg=true'),),
+                      SizedBox(width: 20,),
+                    ],
+                  ),
+                ],
               ),
-
-
-
-
-            ],
-
-          ),
-        ) ,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height*.6,
+              width: double.maxFinite,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('doctor').snapshots(),
+                builder: (context, snapshot) {
+                  queries_complaint.clear();
+                  int indee=0;
+                  if (snapshot.hasData) {
+                    final notice = snapshot.data!.docs;
+                    for (var message in notice) {
+                      indee++;
+                      final name = message['username'];
+                      final mobile = message['mobile'];
+                      final service = message['email'];
+                      final hospital = message['hospital'];
+                      final vehicle = message['special'];
+                      queries_complaint.add(queries_medical_complaint(name,mobile,service,hospital,vehicle));
+                    }
+                  }
+                  return indee==0?Center(child: Image(image: NetworkImage('https://cdn.pixabay.com/photo/2020/08/03/09/43/medical-5459654__340.png'))) :ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: indee,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 250,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                            border: Border.all(
+                                color: Colors.blueAccent, width: 4),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    'https://www.crushpixel.com/big-static18/preview4/avatar-profile-pink-neon-icon-2920285.jpg'),
+                              ),
+                              const SizedBox(
+                                height: 9,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Name of Doctor: ',style: TextStyle(
+                                      color: Colors.blueAccent, fontSize: 15,fontWeight: FontWeight.bold),),
+                                  Text(
+                                    queries_complaint[index].username,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 9,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Email Address: ',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    queries_complaint[index].email,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Speciality: ',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    queries_complaint[index].speciality,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Hospital: ',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    queries_complaint[index].hospital,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Phone number: ',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    queries_complaint[index].mobile,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
-class MyProfilePage1 extends StatefulWidget {
-  const MyProfilePage1({Key? key}) : super(key: key);
-
-  @override
-  State<MyProfilePage1> createState() => _MyProfilePage1State();
+class queries_medical_complaint{
+  late String username;
+  late String mobile;
+  late String email;
+  late String hospital;
+  late String speciality;
+  queries_medical_complaint(String name, String phone, String service, String hospi, String vehicl){
+    username=name;
+    mobile=phone;
+    email=service;
+    hospital=hospi;
+    speciality=vehicl;
+  }
 }
 
-class _MyProfilePage1State extends State<MyProfilePage1> {
+
+
+
+class emergency extends StatefulWidget {
+  const emergency({Key? key}) : super(key: key);
+
+  @override
+  State<emergency> createState() => _emergencyState();
+}
+
+class _emergencyState extends State<emergency> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-
-        body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage('https://imgs.search.brave.com/fiZSCPx8nxa-iojJ5FaVBNywNlK-JWYJgiN3EvTxASM/rs:fit:744:1200:1/g:ce/aHR0cHM6Ly93d3cu/aXRsLmNhdC9wbmdm/aWxlL2JpZy85MC05/MDg5NjBfYmxhY2st/YW5kLXdoaXRlLXdo/YXRzYXBwLXRoZW1l/LXN1bW1pdC5qcGc'
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              width: double.maxFinite,
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(width: 5,),
+                      IconButton(icon: const Icon(Icons.arrow_back_sharp,color: Colors.white,),onPressed: (){Navigator.of(context).pop();}),
+                    ],
+                  ),
+                  const Text('Emergency',style: TextStyle(fontSize: 30,color: Colors.white),),
+                  Row(
+                    children: const [
+                      CircleAvatar(backgroundImage: NetworkImage('https://st2.depositphotos.com/50337402/47092/v/380/depositphotos_470923054-stock-illustration-adult-man-avatar-short-curly.jpg?forcejpeg=true'),),
+                      SizedBox(width: 20,),
+                    ],
+                  ),
+                ],
               ),
-              fit: BoxFit.cover,),
-          ),
-          child: Column(
-              children: [
-
-                Expanded (
-                  flex: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 15,
-                      ),
-                      TextButton(
-                          onPressed: (){
-                            Navigator.pop(context);
-                          },
-                          child: Icon(Icons.arrow_back_outlined, size: 35, color: Colors.white,)),
-
-                    ],
-                  ),
-                ),
-                Expanded (
-                  flex: 5,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-
-                      Expanded(
-                        flex: 1,
-                        child: Card(
-                            margin: EdgeInsets.fromLTRB(15, 15, 0, 10),
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                            ),
-                            child: Image.network('https://imgs.search.brave.com/p5VuWncditi-nK9J5IhSp88bcgqGOxnWEDYknLOhq04/rs:fit:1000:1080:1/g:ce/aHR0cHM6Ly9jZG4z/LnZlY3RvcnN0b2Nr/LmNvbS9pLzEwMDB4/MTAwMC83OS85Mi9w/ZXJzb24td29ya2lu/Zy1vbi1hLWNvbXB1/dGVyLW9yLWxhcHRv/cC12ZWN0b3ItMjM3/Nzc5OTIuanBn', fit: BoxFit.cover,)),
-                      ),
-                      SizedBox(width: 15,),
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Container(
-                            width: 184,
-                            height: double.infinity,
-                            decoration: BoxDecoration(color: Colors.transparent,
-                                border: Border.all(color: Colors.white, width: 1), borderRadius: BorderRadius.all(Radius.circular(20))),
-
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 7,
-                                ),
-                                Text('Clinic Status', style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.bold),),
-                                SizedBox(
-                                  height: 13,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(Icons.location_city_rounded,color: Colors.white,),
-                                    SizedBox(
-                                      width: 52,
-                                    ),
-                                    Text('Noida, India', style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 86,
-                                    ),
-                                    Text('ENT Specialist' , style: TextStyle(fontSize: 12, color: Colors.white,fontWeight: FontWeight.bold ),),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 80,
-                                    ),
-                                    Text('Contact Signing', style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.bold),),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 25,
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 15,
-                                      height: 5,
-                                    ),
-                                    SizedBox(
-                                      width: 130,
-                                      child: Divider(
-                                        height: 5,
-                                        thickness: 1.5,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 25,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text('234', style: TextStyle(fontSize: 12, color: Colors.white,fontWeight: FontWeight.bold),),
-                                        Text('contacts', style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.bold),),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 34,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text('714', style: TextStyle(fontSize: 12, color: Colors.white,fontWeight: FontWeight.bold),),
-                                        Text('meetings', style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.bold),),
-                                      ],
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded (
-                  flex: 2,
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 35,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Dr. Arjun Singh',  style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text('B2B Senior Surgeon',  style: TextStyle(fontSize: 16, color: Colors.white,),),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 140,
-                      ),
-                      TextButton(
-                          onPressed: (){
-                            //navigate
-                          },
-                          child: Icon(Icons.more_horiz_outlined, size: 35,color: Colors.white,)),
-                    ],
-                  ),
-                ),
-                Divider  (
-                  thickness: 1,
-                  height: 30,
-                  color: Colors.white,
-                ),
-                Expanded (
-                  flex: 3,
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 65,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Text('September 2022',style: TextStyle(fontSize: 17,color: Colors.white,)),
-                              Icon(Icons.expand_more_outlined, size: 25,color: Colors.white,),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              Text('28',style: TextStyle(fontSize: 15, color: Colors.white,fontWeight: FontWeight.bold)),
-                              SizedBox(
-                                width: 25,
-                              ),
-                              Text('Contacts',style: TextStyle(fontSize: 15,color: Colors.white,)),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Text('110',style: TextStyle(fontSize: 15,color: Colors.white,)),
-                              SizedBox(
-                                width: 18,
-                              ),
-                              Text('Meetings',style: TextStyle(fontSize: 15,color: Colors.white,)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 15,
-                          ),
-                          SizedBox(
-                            height: 80,
-                            width: 145,
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 72,
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7))),
-                                    elevation: 5,
-                                    margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                    color: Colors.blueGrey.shade400,
-                                    child: Center(child: Text('+ 7%', style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.bold),)),
-
-                                  ),
-                                ),
-                                Container(
-                                  width: 73,
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7))),
-                                    elevation: 5,
-                                    margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                    color: Colors.blueGrey.shade400,
-                                    child: Center(child: Text('More', style: TextStyle(fontSize: 14,color: Colors.white,),)),
-
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Expanded (
-                  flex: 4,
-                  child: Container(
-                    width: double.infinity,
-                    height: 40,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Container(
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height*.6,
+              width: double.maxFinite,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('emergency').snapshots(),
+                builder: (context, snapshot) {
+                  emergency_complaint.clear();
+                  int indee=0;
+                  if (snapshot.hasData) {
+                    final notice = snapshot.data!.docs;
+                    for (var message in notice) {
+                      indee++;
+                      final name = message['username'];
+                      final mobile = message['mobile'];
+                      final service = message['service'];
+                      final hospital = message['hospital'];
+                      final vehicle = message['vehicle'];
+                      emergency_complaint.add(emergency_medical_complaint(name,mobile,service,hospital,vehicle));
+                    }
+                  }
+                  return indee==0?Center(child: Image(image: NetworkImage('https://www.freepnglogos.com/uploads/doctor-png/doctor-icon-33.png'))) :ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: indee,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 250,
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey.shade500,
+                            color: Colors.white,
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                            border: Border.all(
+                                color: Colors.blueAccent, width: 4),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: CircleAvatar(
-                              radius: 70,
-                              backgroundColor: Colors.blueGrey.shade400,
-                              child: Text('25.4 %', style: TextStyle(fontSize: 26, color: Colors.white, fontWeight: FontWeight.bold),),
-                            ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    'https://www.crushpixel.com/big-static18/preview4/avatar-profile-pink-neon-icon-2920285.jpg'),
+                              ),
+                              const SizedBox(
+                                height: 9,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Amb. Driver: ',style: TextStyle(
+                                      color: Colors.blueAccent, fontSize: 15,fontWeight: FontWeight.bold),),
+                                  Text(
+                                    emergency_complaint[index].username,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 9,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Email/Phone number: ',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    emergency_complaint[index].mobile,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Service type: ',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    emergency_complaint[index].type,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Hospital: ',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    emergency_complaint[index].hospital,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Vehicle number: ',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    emergency_complaint[index].vehicle,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(
-                          width: 25,
-                        ),
-                        Column(
-                          children: [
-                            Text('Notes:', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text('Ready for promotion', style: TextStyle(fontSize: 15, color: Colors.white,),)
-
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded (
-                  flex: 1,
-                  child: Container(
-                    width: double.infinity,
-                    height: 40,
-                  ),
-                ),
-              ]
-          ),
+                      );
+                    },
+                  );
+                },
+              ),
+            )
+          ],
         ),
       ),
     );
+  }
+}
+
+class emergency_medical_complaint{
+  late String username;
+  late String mobile;
+  late String type;
+  late String hospital;
+  late String vehicle;
+  emergency_medical_complaint(String name, String phone, String service, String hospi, String vehicl){
+    username=name;
+    mobile=phone;
+    type=service;
+    hospital=hospi;
+    vehicle=vehicl;
   }
 }

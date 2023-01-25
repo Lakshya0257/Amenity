@@ -1,5 +1,4 @@
 import 'package:amenityfinal/Administrative/administrative_login.dart';
-import 'package:amenityfinal/Complainant/Pages/general.dart';
 import 'package:amenityfinal/Servitor/login/servitor_login.dart';
 import 'package:amenityfinal/Complainant/Pages/general_airconditioner.dart';
 import 'package:amenityfinal/Complainant/login_and_signup/complainant_login.dart';
@@ -16,7 +15,7 @@ import 'Complainant/Pages/general_cleaning.dart';
 import 'Complainant/Pages/zoom_drawer_complainant.dart';
 import 'Splashscreen/Splash_screen.dart';
 
-
+//@dart=2.9
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -75,73 +74,72 @@ class _initial_loginState extends State<initial_login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: background(
-        link: 'https://w0.peakpx.com/wallpaper/362/715/HD-wallpaper-color-amoled-minimal-plain-gradient-black-amoled-colors.jpg',
+        link: 'https://w0.peakpx.com/wallpaper/525/714/HD-wallpaper-super-amoled-3-abstract-black-dark-thumbnail.jpg',
         child: SafeArea(
-          child: Column(
-            children: [
-              Flexible(
-                flex: 7,
-                fit: FlexFit.loose,
-                child: Container(
-                    width: double.maxFinite
-                ),
-              ),
-              Flexible(
-                  flex: 2,
-                  fit: FlexFit.loose,
-                  child: infinite_container(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
-                      child: DefaultTextStyle(
-                        style: const TextStyle(
-                          fontSize: 40.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,letterSpacing: 2,
-                        ),
-                        child: AnimatedTextKit(
-                          totalRepeatCount: 1,
-                          animatedTexts: [
-                            TypewriterAnimatedText('Welcome',speed: Duration(milliseconds: 500)),
-                          ],
-                          onTap: (){},
-                        ),
-                      ),
-                    ),
-                  )),
-              Flexible(
-                  flex: 9,
-                  fit: FlexFit.loose,
-                  child: infinite_container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        button(
-                            navigator_class: servitorlogin(), width: 300, height: 80, border: 20, color: Colors.deepOrange,
-                          child: Center(child: Text('Log In As Servitor',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500,letterSpacing: 1),),
-                        )),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        button(
-                          navigator_class: Login(), width: 300, height: 80, border: 20, color: Colors.deepOrange,
-                        child: Center(child: Text('Log In As Complainant',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500,letterSpacing: 1),),),),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        button(
-                          navigator_class: administrative(), width: 300, height: 80, border: 20, color: Colors.deepOrange,
-                          child: Center(child: Text('Log In As Administrative',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500,letterSpacing: 1),)),
-                        )
-                      ],
-                    ),
-                  )),
-              Flexible(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 150,horizontal: 40),
+            child: Column(
+              children: [
+                Flexible(
                   flex: 2,
                   fit: FlexFit.loose,
                   child: Container(
-                    width: double.maxFinite,
-                  ))
-            ],
+                      width: double.maxFinite
+                  ),
+                ),
+                Flexible(
+                    flex: 2,
+                    fit: FlexFit.loose,
+                    child: infinite_container(
+                      child: Center(
+                        child: DefaultTextStyle(
+                          style: const TextStyle(
+                            fontSize: 60.0,
+                            fontFamily: 'bitter',
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,letterSpacing: 2,
+                          ),
+                          child: AnimatedTextKit(
+                            totalRepeatCount: 1,
+                            animatedTexts: [
+                              TypewriterAnimatedText('Welcome',speed: Duration(milliseconds: 500)),
+                            ],
+                            onTap: (){},
+                          ),
+                        ),
+                      ),
+                    )),
+                Flexible(
+                    flex: 9,
+                    fit: FlexFit.loose,
+                    child: infinite_container(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            button(
+                                navigator_class: servitorlogin(), width: MediaQuery.of(context).size.width*.70, height: 100, border: 20, color: Colors.blueAccent,
+                              child: Center(child: Text('Log In As Servitor',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w500,letterSpacing: 1),),
+                            )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            button(
+                              navigator_class: Login(), width: MediaQuery.of(context).size.width*.70, height: 100, border: 20, color: Colors.blueAccent,
+                            child: Center(child: Text('Log In As Complainant',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w500,letterSpacing: 1),),),),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            button(
+                              navigator_class: administrative(), width: MediaQuery.of(context).size.width*.70, height: 100, border: 20, color: Colors.blueAccent,
+                              child: Center(child: Text('Log In As Administrative',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w500,letterSpacing: 1),)),
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
+              ],
+            ),
           ),
         ),
       )
@@ -167,11 +165,12 @@ showAlertDialog(BuildContext context) {
           title: Center(child: Text('Invalid!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, ),)),
           content: Container(
             width: double.maxFinite,
-            height: 40,
+            height: 80,
             child: Column(
               children: [
                 Text('Inputs are invalid', style: TextStyle(fontSize: 17 ,color: Colors.grey),),
                 Text('Please enter valid data', style: TextStyle(fontSize: 17,color: Colors.grey ),),
+                Text('Note:  Please remove any white space from username',style: TextStyle(fontSize: 15,color: Colors.blueAccent),)
               ],
             ),
           ),
